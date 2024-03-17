@@ -27,6 +27,7 @@ const ComponentBlock = ({ component: Component, onAdd }) => {
 
 const PageBuilder = () => {
   const [components, setComponents] = useState([]);
+  const [selectedComponent, setSelectedComponent] = useState(null);
   const { colorMode, toggleColorMode } = useColorMode();
 
   const addComponent = (component) => {
@@ -55,7 +56,7 @@ const PageBuilder = () => {
         </Flex>
         <Box borderWidth={1} borderRadius="lg" p={4} minHeight="400px" bg={colorMode === "light" ? "white" : "gray.700"}>
           {components.map((Component, index) => (
-            <Box key={index} mb={4} position="relative">
+            <Box key={index} mb={4} position="relative" onMouseEnter={() => setSelectedComponent(index)} onMouseLeave={() => setSelectedComponent(null)} onClick={() => setSelectedComponent(index)} borderWidth={selectedComponent === index ? 2 : 0} borderColor="blue.500">
               <Component>{Component === Image ? <Image src="https://images.unsplash.com/photo-1600716051809-e997e11a5d52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxzYW1wbGUlMjBpbWFnZXxlbnwwfHx8fDE3MTA2NDI3OTR8MA&ixlib=rb-4.0.3&q=80&w=1080" alt="Sample" /> : `${Component.displayName} ${index + 1}`}</Component>
               <IconButton icon={<FaTrash />} size="xs" position="absolute" top={2} right={2} onClick={() => removeComponent(index)} aria-label="Remove component" />
             </Box>
